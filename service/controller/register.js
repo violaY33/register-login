@@ -1,7 +1,6 @@
 const User = require('./../database/schema/user')
 
 module.exports = function (req, res, next) {
-  console.log(req.body)
   const newUser = new User(req.body)
 
   User.findOne({

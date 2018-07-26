@@ -21,7 +21,6 @@ export default {
 		this.$http
 			.get('/verify')
 			.then(res => {
-				console.log(res.data);
 				const data = res.data;
 				if (data.isAccessAllowed) {
 					this.msg = data.msg;
@@ -52,7 +51,6 @@ export default {
             this.$http.get('/logout')
             .then(res => {
                 const data = res.data
-                console.log(res.data)
                 if (data.isSuccess) {
                     this.$Message.success(data.msg)
                     this.$router.push('/login')

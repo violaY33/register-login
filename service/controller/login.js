@@ -3,8 +3,6 @@ const jwt = require('jsonwebtoken')
 const config = require('./../config')
 
 module.exports = function (req, res, next) {
-  console.log(req.body)
-
   User.findOne({
     username: req.body.username
   }, (err, user) => {

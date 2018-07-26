@@ -13,6 +13,7 @@ const register = require('./controller/register')
 const login = require('./controller/login')
 const logout = require('./controller/logout')
 const verify = require('./controller/verify')
+const changePsw = require('./controller/changePsw')
 
 
 app.use(cors({
@@ -44,6 +45,8 @@ app.post('/register', register)
 app.post('/login', login)
 app.get('/logout', logout)
 app.get('/verify', verify)
+
+app.get('/changePsw', changePsw)
 
 
 

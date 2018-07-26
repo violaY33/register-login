@@ -57,7 +57,6 @@ export default {
 						})
 						.then(res => {
                             const data = res.data
-							console.log(res.data);
 							if (data.isSuccess) {
 								this.$Message.success(data.msg)
 								this.$router.push('/login')

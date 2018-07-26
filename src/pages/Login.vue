@@ -54,7 +54,6 @@ export default {
                         username: this.loginData.username,
                         password: this.loginData.password
                     }).then((res) => {
-                        console.log(res.data)
                         const data = res.data
                         if (data.valid) {
                             this.$Message.success(data.msg)
