@@ -1,22 +1,22 @@
 <template>
-    <div class="register">
+    <div class="loginData">
         <Row>
             <Col span="8" offset="8">
                 <h2>Login</h2>
-                <Form ref="register" :model="register" :rules="ruleInline">
+                <Form ref="loginData" :model="loginData" :rules="ruleInline">
                     <FormItem prop="username">
-                        <Input type="text" v-model="register.username" placeholder="Username">
+                        <Input type="text" v-model="loginData.username" placeholder="Username">
                         <Icon type="ios-person-outline" slot="prepend"></Icon>
                         </Input>
                     </FormItem>
                     <FormItem prop="password">
-                        <Input type="password" v-model="register.password" placeholder="Password">
+                        <Input type="password" v-model="loginData.password" placeholder="Password">
                         <Icon type="ios-locked-outline" slot="prepend"></Icon>
                         </Input>
                     </FormItem>
                     <FormItem class="btn-group">
-                        <Button type="primary" @click="handleSubmit('register')">Login</Button>
-                        <Button type="default">Register</Button>
+                        <Button type="primary" @click="handleSubmit('loginData')">Login</Button>
+                        <Button type="default" @click="register">register</Button>
                     </FormItem>
                 </Form>
             </Col>
@@ -28,7 +28,7 @@
 export default {
 	data() {
 		return {
-			register: {
+			loginData: {
 				username: '',
 				password: '',
 			},
@@ -50,25 +50,33 @@ export default {
 		handleSubmit(name) {
 			this.$refs[name].validate(valid => {
 				if (valid) {
-                    this.$Message.success('Success!');
-                    console.log(this.register)
                     this.$http.post('/login', {
-                        username: this.register.username,
-                        password: this.register.password
+                        username: this.loginData.username,
+                        password: this.loginData.password
                     }).then((res) => {
                         console.log(res.data)
+                        const data = res.data
+                        if (data.valid) {
+                            this.$Message.success(data.msg)
+                            this.$router.push('/')
+                        } else {
+                            this.$Message.error(data.msg)
+                        }
                     })
 				} else {
 					this.$Message.error('Fail!');
 				}
 			});
-		},
+        },
+        register() {
+            this.$router.push('/register')
+        },
 	},
 };
 </script>
 
 <style scoped>
-.register {
+.loginData {
 	padding: 50px;
 }
 

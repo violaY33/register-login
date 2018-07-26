@@ -1,24 +1,24 @@
 <template>
-    <div class="register">
+    <div class="registerData">
         <Row>
             <Col span="8" offset="8">
-                <h2>Register</h2>
-                <Form ref="register" :model="register" :rules="ruleInline">
-                    <FormItem prop="username">
-                        <Input type="text" v-model="register.username" placeholder="Username">
-                        <Icon type="ios-person-outline" slot="prepend"></Icon>
-                        </Input>
-                    </FormItem>
-                    <FormItem prop="password">
-                        <Input type="password" v-model="register.password" placeholder="Password">
-                        <Icon type="ios-locked-outline" slot="prepend"></Icon>
-                        </Input>
-                    </FormItem>
-                    <FormItem class="btn-group">
-                        <Button type="primary" @click="handleSubmit('register')">Register</Button>
-                        <Button type="default">Login</Button>
-                    </FormItem>
-                </Form>
+            <h2>Register</h2>
+            <Form ref="registerData" :model="registerData" :rules="ruleInline">
+                <FormItem prop="username">
+                    <Input type="text" v-model="registerData.username" placeholder="Username">
+                    <Icon type="ios-person-outline" slot="prepend"></Icon>
+                    </Input>
+                </FormItem>
+                <FormItem prop="password">
+                    <Input type="password" v-model="registerData.password" placeholder="Password">
+                    <Icon type="ios-locked-outline" slot="prepend"></Icon>
+                    </Input>
+                </FormItem>
+                <FormItem class="btn-group">
+                    <Button type="primary" @click="handleSubmit('registerData')">Register</Button>
+                    <Button type="default" @click="login">Login</Button>
+                </FormItem>
+            </Form>
             </Col>
         </Row>
     </div>
@@ -28,7 +28,7 @@
 export default {
 	data() {
 		return {
-			register: {
+			registerData: {
 				username: '',
 				password: '',
 			},
@@ -50,36 +50,49 @@ export default {
 		handleSubmit(name) {
 			this.$refs[name].validate(valid => {
 				if (valid) {
-                    this.$Message.success('Success!');
-                    console.log(this.register)
-                    this.$http.post('/register', {
-                        username: this.register.username,
-                        password: this.register.password
-                    })
-
+					this.$http
+						.post('/register', {
+							username: this.registerData.username,
+							password: this.registerData.password,
+						})
+						.then(res => {
+                            const data = res.data
+							console.log(res.data);
+							if (data.isSuccess) {
+								this.$Message.success(data.msg)
+								this.$router.push('/login')
+							} else {
+								this.$Message.success(data.msg)
+							}
+						})
+						.catch(err => {
+							console.log(err)
+						});
 				} else {
 					this.$Message.error('Fail!');
 				}
 			});
+		},
+		login() {
+			this.$router.push('/login');
 		},
 	},
 };
 </script>
 
 <style scoped>
-.register {
+.registerData {
 	padding: 50px;
 }
 
 h2 {
-    margin-bottom: 20px;
-    text-align: center;
-    color: #ccc;
+	margin-bottom: 20px;
+	text-align: center;
+	color: #ccc;
 }
 
 .btn-group {
-    text-align: center;
+	text-align: center;
 }
-
 </style>
 

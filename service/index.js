@@ -11,6 +11,7 @@ const app = express()
 
 const register = require('./controller/register')
 const login = require('./controller/login')
+const logout = require('./controller/logout')
 const verify = require('./controller/verify')
 
 
@@ -41,13 +42,9 @@ app.get('/', (req, res, next) => {
 
 app.post('/register', register)
 app.post('/login', login)
+app.get('/logout', logout)
 app.get('/verify', verify)
 
-// app.get('/token', (req, res) => {
-//     const token = req.body.token || req.query.token || req.headers['x-access-token'];
-//     console.log(token)
-//     res.send('正在获取token')
-// })
 
 
 
